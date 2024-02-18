@@ -30,3 +30,7 @@ locals {
   }
 }
 
+variable "test" {
+  type        = list(map(list(string)))
+  description = "task 8 test"
+}
