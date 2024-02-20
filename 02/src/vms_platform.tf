@@ -53,11 +53,20 @@ variable "subnet_b_cidr" {
 }
 
 variable "vms_resources" {
-  type        = map(map(any))
+  type        = map(object(
+    {
+      cores         = number
+      memory        = number
+      core_fraction = number
+  }))
   description = "VMs resources"
 }
 
 variable "metadatas" {
-  type        = map(any)
+  type        = object(
+    {
+      serial-port-enable = number
+      ssh-keys           = string
+  })
   description = "VMs metadata"
 }
