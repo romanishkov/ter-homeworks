@@ -1,8 +1,8 @@
 ###cloud vars
-variable "token" {
-  type        = string
-  description = "OAuth-token; https://cloud.yandex.ru/docs/iam/concepts/authorization/oauth-token"
-}
+# variable "token" {
+#   type        = string
+#   description = "OAuth-token; https://cloud.yandex.ru/docs/iam/concepts/authorization/oauth-token"
+# }
 
 variable "cloud_id" {
   type        = string
@@ -29,4 +29,14 @@ variable "vpc_name" {
   type        = string
   default     = "develop"
   description = "VPC network&subnet name"
+}
+
+variable "each_vm" {
+  type = list(object({  vm_name=string, cpu=number, ram=number, disk_volume=number }))
+}
+
+variable "web_provision" {
+  type    = bool
+  default = true
+  description="ansible provision switch variable"
 }
