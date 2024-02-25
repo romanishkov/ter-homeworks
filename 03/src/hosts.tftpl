@@ -19,9 +19,13 @@ ${i["name"]}   ansible_host=${i["network_interface"][0]["ip_address"]}  fqdn=${i
 %{endif}
 %{~ endfor ~}
 
+%{if length(storage) > 0}
 [storage]
-%{if storage["network_interface"][0]["nat"] == true}
-${storage["name"]}   ansible_host=${storage["network_interface"][0]["nat_ip_address"]}  fqdn=${storage["fqdn"]} 
-%{else}
-${storage["name"]}   ansible_host=${storage["network_interface"][0]["ip_address"]}  fqdn=${storage["fqdn"]} 
 %{endif}
+%{~ for i in storage ~}
+%{if i["network_interface"][0]["nat"] == true}
+${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]}  fqdn=${i["fqdn"]}
+%{else}
+${i["name"]}   ansible_host=${i["network_interface"][0]["ip_address"]}  fqdn=${i["fqdn"]}
+%{endif}
+%{~ endfor ~}

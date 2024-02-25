@@ -1,22 +1,22 @@
 resource "yandex_compute_instance" "web" {
-  count = 2
+  count = var.count_vm_num
 
   depends_on = [yandex_compute_instance.db]
 
-  name        = "web-${count.index+1}"
-  platform_id = "standard-v1"
+  name        = "${var.count_vm.vm_name}-${count.index+1}"
+  platform_id = var.count_vm.platform_id
 
   resources {
-    cores         = 2
-    memory        = 1
-    core_fraction = 20
+    cores         = var.count_vm.cpu
+    memory        = var.count_vm.ram
+    core_fraction = var.count_vm.core_fraction
   }
 
   boot_disk {
     initialize_params {
       image_id = data.yandex_compute_image.ubuntu-2004-lts.image_id
       type     = "network-hdd"
-      size     = 5
+      size     = var.count_vm.disk_volume
     }
   }
 
@@ -24,11 +24,11 @@ resource "yandex_compute_instance" "web" {
     ssh-keys = "ubuntu:${local.public_key}"
   }
 
-  scheduling_policy { preemptible = true }
+  scheduling_policy { preemptible = var.count_vm.preemptible }
 
   network_interface {
     subnet_id = yandex_vpc_subnet.develop.id
-    nat       = false
+    nat       = var.count_vm.nat
   }
-  allow_stopping_for_update = true
+  allow_stopping_for_update = var.count_vm.allow_stopping
 }

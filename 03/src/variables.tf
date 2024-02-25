@@ -32,7 +32,27 @@ variable "vpc_name" {
 }
 
 variable "each_vm" {
-  type = list(object({  vm_name=string, cpu=number, ram=number, disk_volume=number }))
+  type = list(object({ vm_name=string, cpu=number, ram=number, disk_volume=number, core_fraction=number,
+    preemptible=bool, nat=bool, allow_stopping=bool, platform_id=string }))
+}
+
+variable "count_vm" {
+  type = object({ vm_name=string, cpu=number, ram=number, disk_volume=number, core_fraction=number,
+    preemptible=bool, nat=bool, allow_stopping=bool, platform_id=string })
+}
+
+variable "storage_vm" {
+  type = object({ vm_name=string, cpu=number, ram=number, disk_volume=number, core_fraction=number,
+    preemptible=bool, nat=bool, allow_stopping=bool, platform_id=string })
+}
+
+variable "count_vm_num" {
+  type = number
+  default = 2
+}
+
+variable "extra_disk_spec" {
+  type = object({ name=string, size=number, count=number })
 }
 
 variable "web_provision" {

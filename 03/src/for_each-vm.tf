@@ -3,14 +3,15 @@ resource "yandex_compute_instance" "db" {
     for index, vm in var.each_vm:
     vm.vm_name => vm
   }
+  # for_each = toset(var.each_vm)
 
   name        = each.value.vm_name
-  platform_id = "standard-v1"
+  platform_id = each.value.platform_id
 
   resources {
     cores         = each.value.cpu
     memory        = each.value.ram
-    core_fraction = 20
+    core_fraction = each.value.core_fraction
   }
 
   boot_disk {
@@ -25,11 +26,11 @@ resource "yandex_compute_instance" "db" {
     ssh-keys = "ubuntu:${local.public_key}"
   }
 
-  scheduling_policy { preemptible = true }
+  scheduling_policy { preemptible = each.value.preemptible }
 
   network_interface {
     subnet_id = yandex_vpc_subnet.develop.id
-    nat       = true
+    nat       = each.value.nat
   }
-  allow_stopping_for_update = true
+  allow_stopping_for_update = each.value.allow_stopping
 }
