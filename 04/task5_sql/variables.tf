@@ -31,48 +31,6 @@ variable "vpc_name" {
   description = "VPC network&subnet name"
 }
 
-###common vars
-
-# variable "vms_ssh_root_key" {
-#   type        = string
-#   default     = "your_ssh_ed25519_key"
-#   description = "ssh-keygen -t ed25519"
-# }
-
-variable "username" {
-  type = string
-}
-
-variable "ssh_public_key" {
-  type        = string
-  description = "Location of SSH public key."
-}
-
-variable "packages" {
-  type    = list
-  default = []
-}
-
-###example vm_web var
-variable "vm_web_name" {
-  type        = string
-  default     = "netology-develop-platform-web"
-  description = "example vm_web_ prefix"
-}
-
-###example vm_db var
-variable "vm_db_name" {
-  type        = string
-  default     = "netology-develop-platform-db"
-  description = "example vm_db_ prefix"
-}
-
-variable "vm_prop" {
-  type = map(object({ env_name=string, subnet_zones=list(string), 
-    inst_name=string, inst_count=number, image_family=string, pub_ip=bool,
-    labels=map(string) }))
-}
-
 variable "subnets" {
   type        = list(object({
     zone = string, cidr = string
@@ -80,4 +38,36 @@ variable "subnets" {
   default = [ 
     { zone = "ru-central1-a", cidr = "10.0.1.0/24" } 
   ]
+}
+
+variable "cluster_name" {
+  type        = string
+  description = "cluster_name"
+}
+
+variable "ha" {
+  type        = bool
+  default     = false
+  description = "false if one host, true if more than one (see host_num)"
+}
+
+variable "db_name" {
+  type        = string
+  description = "db_name"
+}
+
+variable "db_username" {
+  type        = string
+  description = "db_username"
+}
+
+variable "db_password" {
+  type        = string
+  description = "db_password"
+}
+
+variable "resource_preset_id" {
+  type        = string
+  default     = "b1.medium"
+  description = "resource_preset_id"
 }
