@@ -15,7 +15,7 @@ module "vpc" {
 # }
 
 module "marketing-vm" {
-  source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
+  source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=282797c08889fb2ab78c1ac69fcd435453df860d"
   env_name       = var.vm_prop.marketing.env_name
   network_id     = module.vpc.vpc_network.id
   subnet_zones   = var.vm_prop.marketing.subnet_zones
@@ -25,6 +25,7 @@ module "marketing-vm" {
   image_family   = var.vm_prop.marketing.image_family
   public_ip      = var.vm_prop.marketing.pub_ip
   labels         = var.vm_prop.marketing.labels
+  security_group_ids = var.security_group_ids
 
 
   metadata = {
@@ -35,7 +36,7 @@ module "marketing-vm" {
 }
 
 module "analytics-vm" {
-  source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
+  source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=282797c08889fb2ab78c1ac69fcd435453df860d"
   env_name       = var.vm_prop.analytics.env_name
   network_id     = module.vpc.vpc_network.id
   subnet_zones   = var.vm_prop.analytics.subnet_zones
@@ -45,6 +46,7 @@ module "analytics-vm" {
   image_family   = var.vm_prop.analytics.image_family
   public_ip      = var.vm_prop.analytics.pub_ip
   labels         = var.vm_prop.analytics.labels
+  security_group_ids = var.security_group_ids
 
   metadata = {
     user-data          = data.template_file.cloudinit.rendered
